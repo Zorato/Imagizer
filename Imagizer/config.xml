@@ -1,2 +1,2 @@
 <?xml version="1.0"?>
-<config><ratio>save</ratio><size>var</size><priority>max</priority><max><height>1000</height><width>1000</width></max><min><height>200</height><width>200</width></min><exact><height>500</height><width>500</width></exact><convert_to_jpeg>1</convert_to_jpeg><watermark>1</watermark><watermark_text>TEST</watermark_text><compress>1</compress><compress_size>75000</compress_size></config>
+<config><ratio>save</ratio><size>var</size><priority>max</priority><max><height>1000</height><width>1000</width></max><min><height>0</height><width>0</width></min><exact><height>300</height><width>300</width></exact><convert_to_jpeg>0</convert_to_jpeg><watermark>0</watermark><compress>0</compress><compress_level>80</compress_level></config>

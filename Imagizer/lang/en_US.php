@@ -3,8 +3,8 @@
 $i18n = array (
 	
     'CONVERT'=>'Convert images to JPEG format',
-    'WATERMARK'=>'Place watermark on images with this text',
-    'COMPRESS'=>'Compress images to this size',
+    'WATERMARK'=>'Place watermark on images (file "watermark.png" in plugins/Imagizer folder)',
+    'COMPRESS'=>'Compress images to this level 0-100 (default=80)',
     'EXACT_SIZE'=>'Exact size',
     'MIN'=>'Minimum',
     'MAX'=>'Maximum',
@@ -13,6 +13,8 @@ $i18n = array (
     'WIDTH'=>'Width ',
     'HEIGHT'=>'Height',
     'PRIORITY'=>'Priority',
+    'ADVANCED'=>'Advanced',
+    'SAVED'=>'Configuration saved.',
     'VAR_SIZE'=>'Variable size'
     
 //	''=>'',
