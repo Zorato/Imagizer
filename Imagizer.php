@@ -32,58 +32,63 @@ function imagizer_handle(){
     $file=isset($_FILES['file'])?$_FILES['file']:(isset($_FILES['Filedata'])?$_FILES['Filedata']:false);
     if ($file===false) return;
 
-    $file['type']=is_array($file['type'])?$file['type'][0]:$file['type'];
-    $file['name']=is_array($file['name'])?$file['name'][0]:$file['name'];
-    $file['ext'] = lowercase(pathinfo($file['name'],PATHINFO_EXTENSION));
-    
-    if (!defined('GSNOUPLOADIFY')) {
-        $file['target'] = str_replace('//','/',(isset($_POST['path'])) ? GSDATAUPLOADPATH.$_POST['path']."/" : GSDATAUPLOADPATH);
-    }
-    else {
-        $file['target'] = isset($_GET['path'])?tsl("../data/uploads/".str_replace('../','', $_GET['path'])):"../data/uploads/";
-    }
-    $file['target'].= clean_img_name(to7bit($file['name']));
-    
     $image_types=array('image/jpeg','image/pjpeg','image/png','image/gif','image/bmp');
     $image_ext=array('jpg','jpeg','png','gif','bmp');
- 
-    if (in_array($file['type'],$image_types) || in_array($file['ext'],$image_ext) ){ 
-        if(!class_exists('ImagizerImage')){
-            include_once GSPLUGINPATH.'Imagizer/ImagizerImage.php';
-        }
 
-        try{
-            $image = New ImagizerImage($file['target']);
-        }
-        catch(RuntimeException $e){
-            return;
-        }
-        
-        if ($config->size=='var'){
-            if ($config->priority=='min'){ //check max first, then min
-                $image->fitMax((int)$config->max->width,(int)$config->max->height);
-                $image->fitMin((int)$config->min->width,(int)$config->min->height);
-            }
-            else { //check min first, then max
-                $image->fitMin((int)$config->min->width,(int)$config->min->height);
-                $image->fitMax((int)$config->max->width,(int)$config->max->height);
-            }
-        }
-        else { //exact size
-            $image->cropCenter((int)$config->exact->width,(int)$config->exact->height);
-        }
-
-        if ($config->watermark==1 && file_exists(GSPLUGINPATH.'Imagizer/watermark.png')){
-            $image->applyWatermark(GSPLUGINPATH.'Imagizer/watermark.png');
-        }
-
-        $image->save(
-            $file['target'],
-            $config->convert_to_jpeg==1 ? IMAGETYPE_JPEG : $image->getType(),
-            $config->compress==1 ? (int)$config->compress_level : 80
-        );
-
+    if(!class_exists('ImagizerImage')){
+        include_once GSPLUGINPATH.'Imagizer/ImagizerImage.php';
     }
+
+    $target_dir = defined('GSNOUPLOADIFY') ?
+        (isset($_GET['path']) ? tsl("../data/uploads/".str_replace('../','', $_GET['path'])) : "../data/uploads/" ) :
+        (str_replace('//','/',isset($_POST['path']) ? GSDATAUPLOADPATH.$_POST['path']."/" : GSDATAUPLOADPATH));
+
+    if(is_array($file['name'])){
+        foreach($file['name'] as $key => $name){
+            if (in_array($file['type'][$key],$image_types) || in_array(strtolower(pathinfo($name,PATHINFO_EXTENSION)),$image_ext) ){
+                process_file($target_dir . clean_img_name(to7bit($name)), $config);
+            }
+        }
+    }
+    elseif (in_array($file['type'],$image_types) || in_array(strtolower(pathinfo($file['name'],PATHINFO_EXTENSION)),$image_ext) ){
+        process_file($target_dir . clean_img_name(to7bit($file['name'])), $config);
+    }
+
+}
+
+function process_file($filename, $config){
+
+    try{
+        $image = New ImagizerImage($filename);
+    }
+    catch(RuntimeException $e){
+        return false;
+    }
+
+    if ($config->size=='var'){
+        if ($config->priority=='min'){ //check max first, then min
+            $image->fitMax((int)$config->max->width,(int)$config->max->height);
+            $image->fitMin((int)$config->min->width,(int)$config->min->height);
+        }
+        else { //check min first, then max
+            $image->fitMin((int)$config->min->width,(int)$config->min->height);
+            $image->fitMax((int)$config->max->width,(int)$config->max->height);
+        }
+    }
+    else { //exact size
+        $image->cropCenter((int)$config->exact->width,(int)$config->exact->height);
+    }
+
+    if ($config->watermark==1 && file_exists(GSPLUGINPATH.'Imagizer/watermark.png')){
+        $image->applyWatermark(GSPLUGINPATH.'Imagizer/watermark.png');
+    }
+
+    $image->save(
+        $filename,
+        $config->convert_to_jpeg==1 ? IMAGETYPE_JPEG : $image->getType(),
+        $config->compress==1 ? (int)$config->compress_level : 80
+    );
+    return true;
 }
 
 function imagizer_settings(){
