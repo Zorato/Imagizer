@@ -5,7 +5,7 @@
             $(".updated, .error").fadeOut(500).fadeIn(500);
         });
     </script>
-<?endif?>
+<?php endif; ?>
 <form method="POST">
     
     <fieldset>
