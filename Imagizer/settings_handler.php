@@ -20,6 +20,7 @@ if (isset($_POST['imagizer-save-settings'])){
     $config->compress=(int)isset($_POST['compress']);
     $config->compress_level=isset($_POST['compress-level']) ? (int)$_POST['compress-level'] : $config->compress_level;
 
+    $config->exclude = isset($_POST['exclude']) ? trim($_POST['exclude'],'/\\') : '';
 }
 
 

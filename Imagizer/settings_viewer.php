@@ -57,6 +57,11 @@
     </label>
     <input type="range" min="1" max="100" step="1" onchange="$('#compress-level-value').text($(this).val());" name="compress-level" class="to-jpeg compress text" style="width:300px;" value="<?php echo (int)$config->compress_level; ?>">
     <span style="font-size: 20px;vertical-align: top;" id="compress-level-value"><?php echo (int)$config->compress_level; ?></span>
+        <label style="margin:10px 5px;">
+            <?php i18n('Imagizer/EXCLUDE');?>:
+            <input type="text" name="exclude" value="<?php echo $config->exclude; ?>">
+            <?php i18n('Imagizer/EXCLUDE_HELP');?>
+        </label>
     </fieldset>
     <br>
     

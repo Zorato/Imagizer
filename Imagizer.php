@@ -28,6 +28,20 @@ function imagizer_handle(){
     if(!in_arrayi('gd', $php_modules)) return;
 
     $config=load_config();
+
+    $target_dir = defined('GSNOUPLOADIFY') ?
+        (isset($_GET['path']) ? tsl("../data/uploads/".str_replace('../','', $_GET['path'])) : "../data/uploads/" ) :
+        (str_replace('//','/',isset($_POST['path']) ? GSDATAUPLOADPATH.$_POST['path']."/" : GSDATAUPLOADPATH));
+
+    if(defined('IMAGIZEREXCLUDE') || (string)$config->exclude)
+    {
+        $exclude = defined('IMAGIZEREXCLUDE') ? IMAGIZEREXCLUDE : (string)$config->exclude;
+        $path = realpath($target_dir);
+        if(strpos($path, trim($exclude,'/\\')) !== false)
+            return;
+    }
+
+
     $file=array();
     $file=isset($_FILES['file'])?$_FILES['file']:(isset($_FILES['Filedata'])?$_FILES['Filedata']:false);
     if ($file===false) return;
@@ -38,10 +52,6 @@ function imagizer_handle(){
     if(!class_exists('ImagizerImage')){
         include_once GSPLUGINPATH.'Imagizer/ImagizerImage.php';
     }
-
-    $target_dir = defined('GSNOUPLOADIFY') ?
-        (isset($_GET['path']) ? tsl("../data/uploads/".str_replace('../','', $_GET['path'])) : "../data/uploads/" ) :
-        (str_replace('//','/',isset($_POST['path']) ? GSDATAUPLOADPATH.$_POST['path']."/" : GSDATAUPLOADPATH));
 
     if(is_array($file['name'])){
         foreach($file['name'] as $key => $name){
