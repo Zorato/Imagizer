@@ -15,6 +15,8 @@ $i18n = array (
     'PRIORITY'=>'Priority',
     'ADVANCED'=>'Advanced',
     'SAVED'=>'Configuration saved.',
+    'SIZE'=>'Size',
+    'SAVE_SETTINGS'=>'Save settings',
     'VAR_SIZE'=>'Variable size'
     
 //	''=>'',

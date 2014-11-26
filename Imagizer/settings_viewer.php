@@ -32,7 +32,7 @@
     <fieldset>
     <legend style="margin-left:10px ;"><label><h3> <input type="radio"  name="size" value="exact" onclick="disable_group('var')" <?php echo $config->size=='exact'?'checked':''; ?> > <?php i18n('Imagizer/EXACT_SIZE');?> </h3></label></legend>
     <div style="float:left; margin-left:10px;">
-        <h2>Size:</h2>
+        <h2><?php i18n('Imagizer/SIZE');?>:</h2>
         <label><?php i18n('Imagizer/WIDTH');?>:  <input type="text" name="exact[width]"  class="text exact" style="width:120px;" value="<?php echo $config->exact->width;?>"></label>
         <label style="margin-top: 2px!important;"><?php i18n('Imagizer/HEIGHT');?>: <input type="text" name="exact[height]" class="text exact" style="width:120px;" value="<?php echo $config->exact->height;?>"></label><br>
     </div>
@@ -60,7 +60,7 @@
     </fieldset>
     <br>
     
-    <input type="submit" class="submit" name="imagizer-save-settings" value="Save settings">
+    <input type="submit" class="submit" name="imagizer-save-settings" value="<?php i18n('Imagizer/SAVE_SETTINGS');?>">
     
 </form>
 <script>
