@@ -59,7 +59,7 @@
     <span style="font-size: 20px;vertical-align: top;" id="compress-level-value"><?php echo (int)$config->compress_level; ?></span>
         <label style="margin:10px 5px;">
             <?php i18n('Imagizer/EXCLUDE');?>:
-            <input type="text" name="exclude" value="<?php echo $config->exclude; ?>">
+            <input type="text" name="exclude" value="<?php echo  defined('IMAGIZEREXCLUDE') ? IMAGIZEREXCLUDE : $config->exclude; ?>">
             <?php i18n('Imagizer/EXCLUDE_HELP');?>
         </label>
     </fieldset>
