@@ -9,7 +9,7 @@ $thisfile = basename(__FILE__, ".php");
 register_plugin(
 	$thisfile, //Plugin id
 	'Imagizer', 	//Plugin name
-	'1.2', 		//Plugin version
+	'1.3', 		//Plugin version
 	'Alexey Rehov',  //Plugin author (nickname: Zorato)
 	'http://github.com/Zorato/Imagizer', //author website
 	'Fully automatical after-upload image handler', //Plugin description
