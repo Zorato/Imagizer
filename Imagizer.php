@@ -56,12 +56,16 @@ function imagizer_handle(){
     if(is_array($file['name'])){
         foreach($file['name'] as $key => $name){
             if (in_array($file['type'][$key],$image_types) || in_array(strtolower(pathinfo($name,PATHINFO_EXTENSION)),$image_ext) ){
-                process_file($target_dir . clean_img_name(to7bit($name)), $config);
+		$file_to_process = $target_dir . strtolower(clean_img_name(to7bit($file['name'])));
+                rename($target_dir . clean_img_name(pathinfo($file['name'],PATHINFO_FILENAME)).'.'.pathinfo($file['name'],PATHINFO_EXTENSION),$file_to_process);
+                process_file($file_to_process, $config); 
             }
         }
     }
     elseif (in_array($file['type'],$image_types) || in_array(strtolower(pathinfo($file['name'],PATHINFO_EXTENSION)),$image_ext) ){
-        process_file($target_dir . clean_img_name(to7bit($file['name'])), $config);
+	$file_to_process = $target_dir . strtolower(clean_img_name(to7bit($file['name'])));
+        rename($target_dir . clean_img_name(pathinfo($file['name'],PATHINFO_FILENAME)).'.'.pathinfo($file['name'],PATHINFO_EXTENSION),$file_to_process);
+        process_file($file_to_process, $config); 
     }
 
 }
